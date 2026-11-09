@@ -1,5 +1,6 @@
-package com.grt.riceshop.user;
+package com.grt.riceshop.user.entity;
 
+import com.grt.riceshop.user.enums.UserStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,27 +23,27 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    public Long id;
 
     @Column(name = "full_name", nullable = false, length = 100)
-    String fullName;
+    public String fullName;
 
     @Column(length = 255)
-    String email;
+    public String email;
     
     @Column(length = 20)
-    String phone;
+    public String phone;
 
     @Column(name = "password_hash", nullable = false, length = 255)
-    String passwordHash;
+    public String passwordHash;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    UserStatus status;
+    public UserStatus status;
 
-    boolean emailVerified;
-    Instant createdAt;
-    Instant updatedAt;
+    public boolean emailVerified;
+    public Instant createdAt;
+    public Instant updatedAt;
 
     @ManyToMany
     @JoinTable(
@@ -50,5 +51,5 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    Set<Role> roles = new HashSet<>();
+    public Set<Role> roles = new HashSet<>();
 }

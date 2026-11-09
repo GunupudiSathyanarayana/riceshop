@@ -2,6 +2,12 @@ package com.grt.riceshop.user;
 
 import com.grt.riceshop.user.dto.CreateUserRequest;
 import com.grt.riceshop.user.dto.UserResponse;
+import com.grt.riceshop.user.entity.Role;
+import com.grt.riceshop.user.entity.User;
+import com.grt.riceshop.user.enums.UserStatus;
+import com.grt.riceshop.user.mapper.UserMapper;
+import com.grt.riceshop.user.repository.RoleRepository;
+import com.grt.riceshop.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
@@ -13,11 +19,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(
+            UserRepository userRepository,
+            RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder,
+            UserMapper userMapper
+    ) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     public UserResponse createUser(CreateUserRequest createUserRequest) {
@@ -40,12 +53,12 @@ public class UserService {
         user.roles.add(customerRole);
 
         User savedUser = userRepository.save(user);
-        return new UserResponse(savedUser.id, savedUser.fullName, savedUser.email);
+        return userMapper.mapToDTO(savedUser);
     }
 
     public UserResponse getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
-        return new UserResponse(user.id, user.fullName, user.email);
+        return userMapper.mapToDTO(user);
     }
 }

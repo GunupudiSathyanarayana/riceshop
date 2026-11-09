@@ -1,4 +1,4 @@
-package com.grt.riceshop.user;
+package com.grt.riceshop.user.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,8 +13,8 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    public Long id;
 
     @Column(nullable = false, unique = true, length = 30)
-    String name;
+    public String name;
 }

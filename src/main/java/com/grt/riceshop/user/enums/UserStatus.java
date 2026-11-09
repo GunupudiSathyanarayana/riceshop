@@ -1,4 +1,4 @@
-package com.grt.riceshop.user;
+package com.grt.riceshop.user.enums;
 
 public enum UserStatus {
     ACTIVE,
